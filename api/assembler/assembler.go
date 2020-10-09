@@ -2,4 +2,4 @@ package assembler
 
 //将 interfaceModel ---> domainModel
 
-//VO ---> DO
+//VO（或DOT） ---> DO

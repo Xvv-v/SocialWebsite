@@ -1,11 +1,10 @@
-package general
+package common
 
 import (
 	"log"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 )
 
 //MyClaim 储存信息
@@ -50,9 +49,7 @@ func CreateAccessToken(id, name, icon string) string {
 }
 
 //ParaseAccessToken 解析jwt
-func ParaseAccessToken(token string) func(context *gin.Context) {
-
-	return func(context *gin.Context) {
-
-	}
+func ParaseAccessToken(token string)  {
+	
+	//解析token
 }

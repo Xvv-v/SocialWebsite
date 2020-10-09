@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"api/model"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,6 +29,7 @@ func user() *gin.Engine {
 	r := gin.Default()
 	userGroup := r.Group("/user")
 	{
+		userGroup.POST("/register", model.NewUser)
 		userGroup.GET("/personal", func(c *gin.Context) {
 
 		})
