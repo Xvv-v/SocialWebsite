@@ -1,41 +1,23 @@
 package routers
 
 import (
-	"api/model"
+	"SocialWebsite/api/controller"
+	"SocialWebsite/api/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
-//Account 账户
-func Account() *gin.Engine {
+//User 用户
+func User() *gin.Engine {
 
-	r := gin.Default()
-	accGroup := r.Group("/account")
-	{
-		accGroup.POST("/register", func(c *gin.Context) {
-
-		})
-		accGroup.POST("/login", func(c *gin.Context) {
-
-		})
-		accGroup.POST("/logout", func(c *gin.Context) {
-
-		})
-	}
-	return r
-}
-
-func user() *gin.Engine {
-	r := gin.Default()
+	//不带中间件
+	r := gin.New()
 	userGroup := r.Group("/user")
+	userGroup.Use(middleware.JWTAuthMiddleware())
 	{
-		userGroup.POST("/register", model.NewUser)
-		userGroup.GET("/personal", func(c *gin.Context) {
-
-		})
-		userGroup.GET("/public", func(c *gin.Context) {
-
-		})
+		userGroup.POST("/register", controller.NewUser)
+		userGroup.POST("/login", controller.LogIn)
+		userGroup.POST("/logout", controller.LogOut)
 	}
 	return r
 }

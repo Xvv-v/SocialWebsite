@@ -1,9 +1,13 @@
-package main
+package socialwebsite
 
-import "SocialWebsite/routers"
+import (
+	"SocialWebsite/infrastructure/repository"
+	"SocialWebsite/routers"
+)
 
 func main() {
 
-	r := routers.Account()
+	r := routers.User()
+	defer repository.Mysqldb.Close()
 	r.Run(":8080")
 }

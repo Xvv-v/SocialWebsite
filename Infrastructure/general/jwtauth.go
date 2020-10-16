@@ -5,12 +5,12 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 )
 
 //MyClaim 储存信息
 type MyClaim struct {
-	Userid   string
+	Userid   int64
 	Username string
 	Faceicon string
 	jwt.StandardClaims
@@ -24,7 +24,7 @@ const (
 )
 
 //CreateAccessToken 生成token
-func CreateAccessToken(id, name, icon string) string {
+func CreateAccessToken(id int64,name, icon string) string {
 
 	//创建声明
 	claim := MyClaim{
@@ -50,9 +50,17 @@ func CreateAccessToken(id, name, icon string) string {
 }
 
 //ParaseAccessToken 解析jwt
-func ParaseAccessToken(token string) func(context *gin.Context) {
+func ParaseAccessToken(accessToken string) (*MyClaim, error) {
 
-	return func(context *gin.Context) {
-
+	token, err := jwt.ParseWithClaims(accessToken, &MyClaim{}, func(t *jwt.Token) (interface{}, error) {
+		return MySecret, nil
+	})
+	if err != nil {
+		log.Println("err")
+		return nil, err
 	}
+	if claim, ok := token.Claims.(*MyClaim); ok && token.Valid {
+		return claim, nil
+	}
+	return nil, errors.New("invalid token")
 }
